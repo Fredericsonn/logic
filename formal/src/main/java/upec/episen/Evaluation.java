@@ -5,28 +5,58 @@ import java.util.List;
 
 public class Evaluation {
 
-    private List<String> visitedNodes = new ArrayList<>();
+    private static final List<String> visitedNodes = new ArrayList<>();
+    public static int depth = 0;
     
-    public Integer[] evaluate(Integer[] p, Integer[] q, Operand o) {
+    public static Integer[] evaluate(Integer[] p, Integer[] q, Operand o) {
         switch (o) {
-            case EQUIVALENCE:
+            case EQUIVALENCE -> {
                 return EvaluationHelper.equivalence(p, q);
-            case IMPLICATION:
+            }
+            case IMPLICATION -> {
                 return EvaluationHelper.implication(p, q);
-            case NEGATION:
+            }
+            case NEGATION -> {
                 return EvaluationHelper.negation(p);
-            case AND:
+            }
+            case AND -> {
                 return EvaluationHelper.and(p, q);
-            case OR:
-                return EvaluationHelper.or(p, q);        
-            default:
-                throw new RuntimeException("Unknown operand");
+            }
+            case OR -> {
+                return EvaluationHelper.or(p, q);
+            }
+            default -> throw new RuntimeException("Unknown operand");
         }
     }
 
-    public void evaluateAst(AstNode ast) {
-        if (!ast.hasChildren()) {
-
+        public static EvaluationResult deduct(AstNode ast) {
+        if (EvaluationHelper.isTautology(ast.getValue())) {
+            return EvaluationResult.TAUTOLOGY;
+        } else if (EvaluationHelper.isContradiction(ast.getValue())) {
+            return EvaluationResult.CONTRADICTION;
+        } else {
+            return EvaluationResult.INDETERMINED;
         }
+    }
+
+    public static Integer[] evaluateAtomicPreposition(String p) {
+        if (visitedNodes.contains(p)) {
+            return EvaluationHelper.atomicProposition(visitedNodes.indexOf(p));
+        }
+        throw new RuntimeException("Preposition doesn't exist in the current tree : " + p);
+    }
+    public static void addNode(String node) {
+        if (!visitedNodes.contains(node)) {
+            visitedNodes.add(node);
+            incrementDepth();
+        }
+    }
+
+    public static void incrementDepth() {
+        depth++;
+    }
+
+    public void evaluateAst(AstNode ast) {
+        ast.computeTreeValue();
     }
 }
