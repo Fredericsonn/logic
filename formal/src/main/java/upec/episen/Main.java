@@ -5,7 +5,7 @@ public class Main {
         AstPopulator populator = new AstPopulator();
         String tautologyExample = "((p -> q) & (q -> r)) -> (p -> r)";
         String contradictionExample = "(p <-> q) & (p <-> !q)";
-        AstNode ast = populator.createAndPopulateAst("!!p -> a");
+        AstNode ast = populator.createAndPopulateAst(tautologyExample);
         AstPrinter.print(ast);
 
     }

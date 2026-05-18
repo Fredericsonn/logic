@@ -4,7 +4,6 @@ import java.util.List;
 
 public class LogicFormulaParserHelper {
 
-    // Order matters: match longest first (<-> before ->)
     private static final List<String> operators = List.of("<->", "->", "&", "|", "!");
     private static final List<String> binaryOperators = List.of("<->", "->", "&", "|");
 

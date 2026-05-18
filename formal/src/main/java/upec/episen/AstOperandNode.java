@@ -15,8 +15,9 @@ public class AstOperandNode extends AstNode {
 
     @Override
     public void computeTreeValue() {
-        for (AstNode child : this.getChildren())
+        for (AstNode child : this.getChildren()) {
             child.computeTreeValue();
+        }
 
         if (this.operand == Operand.NEGATION) {
             AstNode arg = this.getChildren().get(0);
